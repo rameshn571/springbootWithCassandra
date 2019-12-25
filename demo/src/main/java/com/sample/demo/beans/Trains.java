@@ -1,31 +1,33 @@
 package com.sample.demo.beans;
 
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table
+@Table("trains")
 public class Trains {
 
-	@PrimaryKeyColumn
+	@PrimaryKeyColumn(name = "train_id", ordinal = 2, type = PrimaryKeyType.PARTITIONED, ordering = Ordering.ASCENDING)
 	private final int trainId;
 
-	@PrimaryKeyColumn
+	@PrimaryKeyColumn(name = "train_name", ordinal = 2, type = PrimaryKeyType.PARTITIONED, ordering = Ordering.ASCENDING)
 	private final String trainName;
 
-	@PrimaryKeyColumn
+	@PrimaryKeyColumn(name = "train_no", ordinal = 2, type = PrimaryKeyType.PARTITIONED, ordering = Ordering.ASCENDING)
 	private final int trainNo;
 
-	@Column
+	@Column("current_seats")
 	private final int currentSeats;
 
-	@Column
+	@Column("source")
 	private final String source;
 
-	@Column
+	@Column("destination")
 	private final String destination;
 
-	@Column
+	@Column("total_seats")
 	private final int totalSeats;
 
 	public Trains(int trainId, String trainName, int trainNo, int currentSeats, String source, String destination,

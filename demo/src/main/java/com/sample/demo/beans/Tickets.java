@@ -2,38 +2,40 @@ package com.sample.demo.beans;
 
 import java.sql.Timestamp;
 
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table
+@Table("tickets")
 public class Tickets {
 
-	@PrimaryKey
+	@PrimaryKeyColumn(name = "ticket_id", ordinal = 2, type = PrimaryKeyType.PARTITIONED, ordering = Ordering.ASCENDING)
 	private final int ticketId;
 
-	@Column
+	@Column("destination")
 	private final String destination;
 
-	@Column
+	@Column("source")
 	private final String source;
 
-	@Column
+	@Column("jouney_date")
 	private final Timestamp jouneyDate;
 
-	@Column
+	@Column("rid")
 	private final int regId;
 
-	@Column
+	@Column("seat_no")
 	private final int seatNo;
 
-	@Column
+	@Column("train_no")
 	private final int trainNo;
 
-	@Column
+	@Column("uname")
 	private final String userName;
 
-	@Column
+	@Column("train_name")
 	private final String trainName;
 
 	public Tickets(int ticketId, String destination, String source, Timestamp jouneyDate, int regId, int seatNo,

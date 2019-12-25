@@ -15,6 +15,9 @@ import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
+import com.datastax.driver.core.PlainTextAuthProvider;
+import com.datastax.driver.core.policies.ConstantReconnectionPolicy;
+
 @Configuration
 @EnableCassandraRepositories(basePackages = "com.sample.demo.repository")
 @PropertySource(value = { "classpath:application.properties" })
@@ -43,11 +46,15 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 	@Bean
 	public CassandraClusterFactoryBean cluster() {
 		CassandraClusterFactoryBean cluster = new CassandraClusterFactoryBean();
-		cluster.setContactPoints("192.168.14.18");
+		PlainTextAuthProvider authProvider = new PlainTextAuthProvider(userName, password);
+		cluster.setContactPoints("127.0.0.1");
 		cluster.setPort(9042);
 		cluster.setUsername(userName);
+		cluster.setAuthProvider(authProvider);
 		cluster.setPassword(password);
 		cluster.setJmxReportingEnabled(false);
+		cluster.setKeyspaceCreations(getKeyspaceCreations());
+		cluster.setReconnectionPolicy(new ConstantReconnectionPolicy(1000));
 		return cluster;
 	}
 
