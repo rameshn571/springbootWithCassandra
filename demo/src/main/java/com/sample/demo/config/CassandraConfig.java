@@ -78,13 +78,12 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 	protected List<String> getStartupScripts() {
 		List<String> tablesList = new ArrayList<>();
 		tablesList.add("CREATE TABLE IF NOT EXISTS " + keySpace
-				+ ".person (id text PRIMARY KEY,name text,age int) WITH default_time_to_live = 600;");
-		tablesList.add("CREATE TABLE IF NOT EXISTS " + keySpace
 				+ ".registration (uname text,id int,mobile_no text,password text,PRIMARY KEY (uname, id));");
 		tablesList.add("CREATE TABLE IF NOT EXISTS " + keySpace
 				+ ".tickets (ticket_id int,train_name text,train_no int,source text,destination text,jouney_date timestamp,seat_no int,rid int,uname text,PRIMARY KEY (ticket_id));");
 		tablesList.add("CREATE TABLE IF NOT EXISTS " + keySpace
 				+ ".trains (train_id int,train_name text,train_no int,current_seats int,destination text,source text,total_seats int,PRIMARY KEY (train_id, train_name, train_no));");
+		tablesList.add("create INDEX if NOT EXISTS regid_index ON " + keySpace + ".registration (id);");
 		return tablesList;
 	}
 
